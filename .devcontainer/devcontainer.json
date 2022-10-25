@@ -1,0 +1,28 @@
+{
+  "name": "Assignment 4",
+  "dockerFile": "Dockerfile",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        // "terminal.integrated.profiles.linux": {
+        //   "bash": {
+        //     "path": "/bin/bash"
+        //   }
+        // },
+        "python.defaultInterpreterPath": "./.venv/bin/python3.10",
+        "python.languageServer": "Default",
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+  "postCreateCommand": "poetry install",
+  // "postStartCommand": "poetry shell",
+  "remoteUser": "vscode"
+}
