@@ -1,44 +1,26 @@
 import pandas as pd
 import stacksurvey as so
+import pytest
 
 
-import pandas as pd
-import stacksurvey as so
-
-
-def test_median_by_undergrad_no_data():
-    # Arrange
-    data = pd.DataFrame(
-        {
-            "NotTheSalaryColumn": [],
-            "NotTheMajorColumn": [],
-        }
-    )
+@pytest.mark.parametrize(
+    "survey, expected",
+    [
+        ([[], []], [[], []]),
+        (
+            [["CompSci"] * 3, [30000, 70000, 90000]],
+            [["CompSci"], [70000.0]],
+        ),
+    ],
+    indirect=True,
+)
+def test_median_by_undergrad_no_data(survey, expected):
 
     # Act
-    salaries = so.median_by_undergrad(data)
+    salaries = so.median_by_undergrad(survey)
 
     # Assert
-    assert salaries.name == "Salary"
-    assert salaries.index.name == "Undergraduate Major"
-
-
-def test_median_by_undergrad_single_major():
-    data = pd.DataFrame(
-        {
-            "NotTheSalaryColumn": [1, 7, 9],
-            "NotTheMajorColumn": ["A"] * 3,
-        }
-    )
-    salaries = so.median_by_undergrad(data)
-    pd.testing.assert_series_equal(
-        salaries,
-        pd.Series(
-            [7.0],
-            index=pd.Index(["A"], name="Undergraduate Major"),
-            name="Salary",
-        ),
-    )
+    pd.testing.assert_series_equal(salaries, expected)
 
 
 def test_quantiles():
